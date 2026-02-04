@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random 25 MIRB 82/25 Questions Exam</title>
+<style>
+body { font-family: Arial, sans-serif; background: #f0f8ff; padding: 20px; }
+h1 { text-align: center; color: #333; }
+.question { background: #fff; padding: 15px; margin: 15px 0; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+.options label { display: block; margin: 10px 0; font-size: 18px; cursor: pointer; }
+input[type=radio] { transform: scale(1.2); margin-right: 10px; }
+button { padding: 12px 25px; font-size: 18px; border-radius: 8px; cursor: pointer; background: #1e90ff; color: #fff; border: none; transition: 0.3s; }
+button:hover { background: #104e8b; }
+#result { margin-top: 25px; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); font-size: 18px; }
+.correct { color: green; font-weight: bold; }
+.wrong { color: red; font-weight: bold; }
+
+</style>
+</head>
+<body>
+<h1>Random 25 MIRB 82/25 Questions Exam</h1>
+<form id="quizForm"></form>
+<button id="submitBtn">Submit</button>
+<div id="result"></div>
+
+<script>
+// Barcha savollar massivini shu yerga joylashtiring
+const allQuestions = [
+{q:"Which tense is used to talk about past events?", options:["Past simple","Present continuous","Future tense","Present perfect"], answer:"Past simple"},
+{q:"What is a market?", options:["A place to buy and sell things","A place to swim","A place to sleep","A place to drive"], answer:"A place to buy and sell things"},
+{q:"What kind of markets are open-air?", options:["Bazaars","Malls","Factories","Airports"], answer:"Bazaars"},
+{q:"What is the Uzbek model of the market?", options:["Open-air bazaars","Online stores","Shopping centers","Supermarkets"], answer:"Open-air bazaars"},
+{q:"What is important in global travel?", options:["Tourism","Homework","Cooking","Reading"], answer:"Tourism"},
+{q:"What does eco-tourism focus on?", options:["Protecting nature","Buying gifts","Eating fast food","Watching movies"], answer:"Protecting nature"},
+{q:"What should you describe in a tourist attraction?", options:["The place and its features","Your feelings only","The weather only","The food only"], answer:"The place and its features"},
+{q:"How can you help guests?", options:["By giving good service","By ignoring them","By talking loudly","By leaving them"], answer:"By giving good service"},
+{q:"What should you do when a customer complains?", options:["Write an apology letter","Ignore the problem","Get angry","Leave the room"], answer:"Write an apology letter"},
+{q:"Why do people travel?", options:["To see new places","To stay at home","To sleep all day","To watch TV"], answer:"To see new places"},
+{q:"What do you need to apply for a job?", options:["A cover letter","A recipe","A drawing","A ticket"], answer:"A cover letter"},
+{q:"What tense is used to describe habits?", options:["Present simple","Past continuous","Future perfect","Present perfect"], answer:"Present simple"},
+{q:"What is important to include in your personal details?", options:["Your name","Your favorite color","Your shoe size","Your pet's name"], answer:"Your name"},
+{q:"Which tense do you use to talk about things happening now?", options:["Present continuous","Past simple","Future perfect","Present perfect"], answer:"Present continuous"},
+{q:"What is a personal portfolio?", options:["A collection of your work and achievements","A type of backpack","A photo album","A shopping bag"], answer:"A collection of your work and achievements"},
+{q:"How often do you use adverbs of frequency?", options:["To say how often something happens","To describe colors","To show feelings","To name objects"], answer:"To say how often something happens"},
+{q:"When you meet new people, what should you do?", options:["Start a conversation","Run away","Stay silent","Ignore them"], answer:"Start a conversation"},
+{q:"What is networking?", options:["Meeting people and talking","Watching TV","Sleeping","Cooking dinner"], answer:"Meeting people and talking"},
+{q:"What do customers want?", options:["Good service","Bad food","Loud music","Cold weather"], answer:"Good service"},
+{q:"What is the main goal of customer service?", options:["To help and satisfy customers","To sell broken goods","To ignore customers","To close the shop"], answer:"To help and satisfy customers"},
+{q:"How do you prepare for a job interview?", options:["Practice common questions","Sleep all day","Watch TV","Go shopping"], answer:"Practice common questions"},
+{q:"What do you write in a CV?", options:["Your work experience and skills","Your favorite movies","Your friends' names","Your pet’s tricks"], answer:"Your work experience and skills"},
+{q:"What is the structure of a market?", options:["Open-air or closed style","Only online","Only in malls","Only in houses"], answer:"Open-air or closed style"},
+{q:"What is a closed style market?", options:["A market inside a building","A market outside","A market on the street","A market in a park"], answer:"A market inside a building"},
+{q:"Why is tourism important?", options:["It helps the economy","It causes problems","It is boring","It wastes money"], answer:"It helps the economy"},
+// Shu tarzda barcha savollarni qo‘shing (siz yuborgan barcha testlar)
+];
+
+// Arrayni aralashtirish funksiyasi
+function shuffleArray(array){
+  for(let i=array.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [array[i],array[j]]=[array[j],array[i]];
+  }
+  return array;
+}
+
+const quizForm = document.getElementById('quizForm');
+const selectedQuestions = shuffleArray([...allQuestions]).slice(0,25);
+const letters = ['A','B','C','D'];
+
+// Savollarni chiqarish
+selectedQuestions.forEach((q,index)=>{
+  const div = document.createElement('div');
+  div.classList.add('question');
+  div.innerHTML = `<p>${index+1}. ${q.q}</p>`;
+  const shuffledOptions = shuffleArray([...q.options]);
+  shuffledOptions.forEach((opt,i)=>{
+    div.innerHTML += `<label><input type='radio' name='q${index}' value='${opt}'> ${letters[i]}. ${opt}</label>`;
+  });
+  quizForm.appendChild(div);
+});
+
+// Natijani hisoblash
+document.getElementById('submitBtn').addEventListener('click',function(e){
+  e.preventDefault();
+  let score = 0;
+  let output = '';
+  selectedQuestions.forEach((q,index)=>{
+    const selected = document.querySelector(`input[name='q${index}']:checked`);
+    if(selected){
+      if(selected.value === q.answer){
+        score++;
+        output += `<p>${index+1}. <span class='correct'>Correct ✅</span></p>`;
+      } else {
+        output += `<p>${index+1}. <span class='wrong'>Wrong ❌</span> (Correct: ${q.answer})</p>`;
+      }
+    } else {
+      output += `<p>${index+1}. <span class='wrong'>Not answered ❌</span> (Correct: ${q.answer})</p>`;
+    }
+  });
+  const percent = Math.round((score/selectedQuestions.length)*100);
+  const finalScore = Math.round((score/selectedQuestions.length)*100);
+  output += `<h3>Your score: ${score} / ${selectedQuestions.length} (${finalScore} / 100)</h3>`;
+  document.getElementById('result').innerHTML = output;
+});
+</script>
+</body>
+</html>
